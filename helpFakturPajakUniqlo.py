@@ -81,7 +81,7 @@ for _, _, files in os.walk(pathToPdfs):
                 nsfp = getInformation(list_of_texts)[0]
 
                 #Extracting 'line items' information
-                table = page.extract_table() # get the table from that page. Using this to get line items information
+                table = pdf.pages[0].extract_table() # get the table from that page. Using this to get line items information
                 for row in table:
                     if row[0].isdigit():
                         row.insert(0,nsfp)
