@@ -68,13 +68,13 @@ def getInformation(ListOfText):
 for _, _, files in os.walk(pathToPdfs):
     for filename in files:
         if '.pdf' in filename:
-            print ("Extracting " + filename)
+            print ("Extracting " + filename + "....")
             pdf = pdfplumber.open(pathToPdfs + filename)
             number_of_pages = len(pdf.pages)
             
-            for page in pdf.pages:
+            if number_of_pages == 1:
                 #Extracting 'non-line-items' information
-                texts = page.extract_text() # get all texts. Using this to get other information
+                texts = pdf.pages[0].extract_text() # get all texts. Using this to get other information
                 list_of_texts = list(texts.split("\n"))
                 list_of_rows.append(getInformation(list_of_texts))
 
@@ -88,6 +88,11 @@ for _, _, files in os.walk(pathToPdfs):
                         row[2] = row[2].replace('.','').replace(',','.')
                         row[3] = row[3].replace('.','').replace(',','.')
                         list_of_line_items_rows.append(row)
+                print ("Success: " + filename)
+                
+            elif number_of_pages > 1:
+                print("Warning! "+ filename + "has been skipped because it has more than 1 page.")
+
             
     #Exporting csv of non-line items
     df = pd.DataFrame(list_of_rows, columns=header_row)
