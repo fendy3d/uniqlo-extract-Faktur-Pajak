@@ -49,14 +49,14 @@ def reformatDate(date_string):
 def getInformation(ListOfText):
     nomorSeriFakturPajak = ListOfText[1].split(":")[-1].strip()
     namaPengusahaKenaPajak = ListOfText[3].split(":")[-1]
-    namaPembeliBarangKenaPajak = ListOfText[7].split(":")[-1]
+    namaPembeliBarangKenaPajak = ListOfText[8].split(":")[-1]
     dpp = ""
     ppn = ""
     tanggalFakturPajak = reformatDate(ListOfText[-7].split(",")[-1]) #reformat to dd/mm/yyyy
     referenceText = ListOfText[-5]
 
     for text in ListOfText:
-        if "x Dasar Pengenaan Pajak" in text:
+        if "Total PPN" in text:
             ppn = text.split(" ")[-1]
             ppn = float(ppn.replace('.','').replace(',','.'))
         elif "Dasar Pengenaan Pajak" in text:
@@ -72,10 +72,16 @@ for _, _, files in os.walk(pathToPdfs):
             pdf = pdfplumber.open(pathToPdfs + filename)
             number_of_pages = len(pdf.pages)
             
+            
             if number_of_pages == 1:
                 #Extracting 'non-line-items' information
                 texts = pdf.pages[0].extract_text() # get all texts. Using this to get other information
+                counter = 0
+                
                 list_of_texts = list(texts.split("\n"))
+                # for text in list_of_texts:
+                #     print(str(counter) + " : " + text)
+                    # counter += 1
                 list_of_rows.append(getInformation(list_of_texts))
 
                 nsfp = getInformation(list_of_texts)[0]
