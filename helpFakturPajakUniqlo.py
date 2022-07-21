@@ -9,15 +9,20 @@ import os
 import csv
 from enum import Enum
 
-pathToPdfs = os.getcwd()+"/dropPdfHere/"
+pathToPdfs = os.getcwd()+"/dropPdfHere2/"
 header_row = ['Nomor Seri Faktur Pajak', 'Nama Pengusaha Kena Pajak', 'Nama Pembeli Barang Kena Pajak', 'DPP', 'PPN', 'Tanggal Faktur Pajak', 'Reference Text']
 list_of_rows = []
 header_line_items_row = ['Nomor Seri Faktur Pajak', 'Number', 'Line Item', 'Line Amount']
 list_of_line_items_rows = []
 
+# VARIABLES FOR YUNIKE
+# entity_code: other PT = 0, PT VIVO MOBILE INDONESIA = 1
+
+entity_code = 1 # <---- CHANGE THIS!
 
 def reformatDate(date_string):
     #assuming date is written like 03 Januari 2022
+    print(date_string)
     date_list = date_string.split(" ")
     _, day, month, year = date_list
     if (month == "Januari"):
@@ -47,13 +52,22 @@ def reformatDate(date_string):
     return day + "/" + month + "/" + year
 
 def getInformation(ListOfText):
-    nomorSeriFakturPajak = ListOfText[1].split(":")[-1].strip()
-    namaPengusahaKenaPajak = ListOfText[3].split(":")[-1]
-    namaPembeliBarangKenaPajak = ListOfText[8].split(":")[-1]
-    dpp = ""
-    ppn = ""
-    tanggalFakturPajak = reformatDate(ListOfText[-7].split(",")[-1]) #reformat to dd/mm/yyyy
-    referenceText = ListOfText[-5]
+    if entity_code == 0:
+        nomorSeriFakturPajak = ListOfText[1].split(":")[-1].strip()
+        namaPengusahaKenaPajak = ListOfText[3].split(":")[-1]
+        namaPembeliBarangKenaPajak = ListOfText[8].split(":")[-1]
+        dpp = ""
+        ppn = ""
+        tanggalFakturPajak = reformatDate(ListOfText[-7].split(",")[-1]) #reformat to dd/mm/yyyy
+        referenceText = ListOfText[-5]
+    elif entity_code == 1:
+        nomorSeriFakturPajak = ListOfText[1].split(":")[-1].strip()
+        namaPengusahaKenaPajak = ListOfText[3].split(":")[-1]
+        namaPembeliBarangKenaPajak = ListOfText[8].split(":")[-1]
+        dpp = ""
+        ppn = ""
+        tanggalFakturPajak = reformatDate(ListOfText[-8].split(",")[-1]) #reformat to dd/mm/yyyy
+        referenceText = ListOfText[-6]
 
     for text in ListOfText:
         if "Total PPN" in text:
@@ -79,9 +93,12 @@ for _, _, files in os.walk(pathToPdfs):
                 counter = 0
                 
                 list_of_texts = list(texts.split("\n"))
+
+                # UNCOMMENT THESE TO PRINT THE INDEX OF THE TEXTS
                 # for text in list_of_texts:
                 #     print(str(counter) + " : " + text)
-                    # counter += 1
+                #     counter += 1
+
                 list_of_rows.append(getInformation(list_of_texts))
 
                 nsfp = getInformation(list_of_texts)[0]
