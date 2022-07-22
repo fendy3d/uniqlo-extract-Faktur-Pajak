@@ -9,7 +9,7 @@ import os
 import csv
 from enum import Enum
 
-pathToPdfs = os.getcwd()+"/dropPdfHere2/"
+pathToPdfs = os.getcwd()+"/dropPdfHere/"
 header_row = ['Nomor Seri Faktur Pajak', 'Nama Pengusaha Kena Pajak', 'Nama Pembeli Barang Kena Pajak', 'DPP', 'PPN', 'Tanggal Faktur Pajak', 'Reference Text']
 list_of_rows = []
 header_line_items_row = ['Nomor Seri Faktur Pajak', 'Number', 'Line Item', 'Line Amount']
@@ -18,7 +18,7 @@ list_of_line_items_rows = []
 # VARIABLES FOR YUNIKE
 # entity_code: other PT = 0, PT VIVO MOBILE INDONESIA = 1
 
-entity_code = 1 # <---- CHANGE THIS!
+entity_code = 0 # <---- CHANGE THIS!
 
 def reformatDate(date_string):
     #assuming date is written like 03 Januari 2022
