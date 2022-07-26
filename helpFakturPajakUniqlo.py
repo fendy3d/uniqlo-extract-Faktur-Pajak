@@ -16,9 +16,9 @@ header_line_items_row = ['Nomor Seri Faktur Pajak', 'Number', 'Line Item', 'Line
 list_of_line_items_rows = []
 
 # VARIABLES FOR YUNIKE
-# entity_code: other PT = 0, PT VIVO MOBILE INDONESIA = 1
+# entity_code: other PT = 0, PT VIVO MOBILE INDONESIA = 1, PT PINTAR BELANJA INDONESIA = 2
 
-entity_code = 0 # <---- CHANGE THIS!
+entity_code = 2 # <---- CHANGE THIS!
 
 def reformatDate(date_string):
     #assuming date is written like 03 Januari 2022
@@ -60,7 +60,8 @@ def getInformation(ListOfText):
         ppn = ""
         tanggalFakturPajak = reformatDate(ListOfText[-7].split(",")[-1]) #reformat to dd/mm/yyyy
         referenceText = ListOfText[-5]
-    elif entity_code == 1:
+
+    elif entity_code == 1: #PT VIVO MOBILE INDONESIA
         nomorSeriFakturPajak = ListOfText[1].split(":")[-1].strip()
         namaPengusahaKenaPajak = ListOfText[3].split(":")[-1]
         namaPembeliBarangKenaPajak = ListOfText[8].split(":")[-1]
@@ -68,6 +69,15 @@ def getInformation(ListOfText):
         ppn = ""
         tanggalFakturPajak = reformatDate(ListOfText[-8].split(",")[-1]) #reformat to dd/mm/yyyy
         referenceText = ListOfText[-6]
+
+    elif entity_code == 2: #PT PINTAR BELANJA INDONESIA
+        nomorSeriFakturPajak = ListOfText[1].split(":")[-1].strip()
+        namaPengusahaKenaPajak = ListOfText[3].split(":")[-1]
+        namaPembeliBarangKenaPajak = ListOfText[7].split(":")[-1]
+        dpp = ""
+        ppn = ""
+        tanggalFakturPajak = reformatDate(ListOfText[-7].split(",")[-1]) #reformat to dd/mm/yyyy
+        referenceText = ListOfText[-5]
 
     for text in ListOfText:
         if "Total PPN" in text:
@@ -95,9 +105,9 @@ for _, _, files in os.walk(pathToPdfs):
                 list_of_texts = list(texts.split("\n"))
 
                 # UNCOMMENT THESE TO PRINT THE INDEX OF THE TEXTS
-                # for text in list_of_texts:
-                #     print(str(counter) + " : " + text)
-                #     counter += 1
+                for text in list_of_texts:
+                    print(str(counter) + " : " + text)
+                    counter += 1
 
                 list_of_rows.append(getInformation(list_of_texts))
 
