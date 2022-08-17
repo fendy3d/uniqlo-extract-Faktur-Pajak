@@ -22,7 +22,7 @@ entity_code = 2 # <---- CHANGE THIS!
 
 def reformatDate(date_string):
     #assuming date is written like 03 Januari 2022
-    print(date_string)
+    
     date_list = date_string.split(" ")
     _, day, month, year = date_list
     if (month == "Januari"):
@@ -125,6 +125,8 @@ for _, _, files in os.walk(pathToPdfs):
                 
             elif number_of_pages > 1:
                 print("Warning! "+ filename + "has been skipped because it has more than 1 page.")
+
+            print("=========================")
 
             
     #Exporting csv of non-line items
