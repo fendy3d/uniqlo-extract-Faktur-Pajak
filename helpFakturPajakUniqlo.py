@@ -22,7 +22,7 @@ entity_code = 2 # <---- CHANGE THIS!
 
 def reformatDate(date_string):
     #assuming date is written like 03 Januari 2022
-    print(date_string)
+    # print(date_string)
     date_list = date_string.split(" ")
     _, day, month, year = date_list
     if (month == "Januari"):
@@ -105,9 +105,9 @@ for _, _, files in os.walk(pathToPdfs):
                 list_of_texts = list(texts.split("\n"))
 
                 # UNCOMMENT THESE TO PRINT THE INDEX OF THE TEXTS
-                for text in list_of_texts:
-                    print(str(counter) + " : " + text)
-                    counter += 1
+                # for text in list_of_texts:
+                #     print(str(counter) + " : " + text)
+                #     counter += 1
 
                 list_of_rows.append(getInformation(list_of_texts))
 
@@ -122,6 +122,7 @@ for _, _, files in os.walk(pathToPdfs):
                         row[3] = row[3].replace('.','').replace(',','.')
                         list_of_line_items_rows.append(row)
                 print ("Success: " + filename)
+                print ("\n")
                 
             elif number_of_pages > 1:
                 print("Warning! "+ filename + "has been skipped because it has more than 1 page.")
