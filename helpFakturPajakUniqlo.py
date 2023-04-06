@@ -91,9 +91,9 @@ for _, _, files in os.walk(pathToPdfs):
                 list_of_texts = list(texts.split("\n"))
 
                 # UNCOMMENT THESE TO PRINT THE INDEX OF THE TEXTS
-                for text in list_of_texts:
-                    print(str(counter) + " : " + text)
-                    counter += 1
+                # for text in list_of_texts:
+                #     print(str(counter) + " : " + text)
+                #     counter += 1
 
                 list_of_rows.append(getInformation(list_of_texts))
 
